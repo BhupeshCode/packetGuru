@@ -1,89 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>PacketGuru Subnet Calculator v1</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: #111;
-      color: #eee;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 30px;
-    }
-    input, button {
-      padding: 10px;
-      margin: 10px;
-      font-size: 16px;
-    }
-    .result {
-      background: #222;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 20px;
-      width: 400px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PacketGuru - Subnet Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>PacketGuru Subnet Calculator v1</h1>
-  <input type="text" id="ip" placeholder="Enter IP (e.g., 192.168.1.0)">
-  <input type="number" id="cidr" placeholder="CIDR (e.g., 24)">
-  <button onclick="calculate()">Calculate</button>
+  <div class="container">
+    <h1>📡 PacketGuru Subnet Calculator</h1>
+    <input type="text" id="ipInput" placeholder="Enter IP (e.g. 192.168.1.1/24)" />
+    <button onclick="calculate()">Calculate</button>
+    <div id="output" class="output-box"></div>
+  </div>
 
-  <div class="result" id="output" style="display:none;"></div>
-
-  <script>
-  function ipToBinary(ip) {
-    return ip.split('.').map(x => parseInt(x).toString(2).padStart(8, '0')).join('');
-  }
-
-  function binaryToIp(bin) {
-    return bin.match(/.{1,8}/g).map(x => parseInt(x, 2)).join('.');
-  }
-
-  function getSubnetMask(cidr) {
-    const binMask = '1'.repeat(cidr).padEnd(32, '0');
-    return binaryToIp(binMask);
-  }
-
-  function calculate() {
-    const ip = document.getElementById('ip').value.trim();
-    const cidr = parseInt(document.getElementById('cidr').value.trim());
-    const output = document.getElementById('output');
-
-    if (!ip || cidr < 1 || cidr > 32) {
-      alert("Enter valid IP and CIDR (1–32)");
-      return;
-    }
-
-    const binIP = ipToBinary(ip).padEnd(32, '0');
-    const netmaskBin = '1'.repeat(cidr).padEnd(32, '0');
-
-    const networkBin = [...binIP].map((bit, i) => bit & netmaskBin[i]).join('');
-    const broadcastBin = [...binIP].map((bit, i) => netmaskBin[i] === '1' ? bit : '1').join('');
-
-    const network = binaryToIp(networkBin);
-    const broadcast = binaryToIp(broadcastBin);
-    const firstHost = binaryToIp(networkBin.slice(0, 31) + '1');
-    const lastHost = binaryToIp(broadcastBin.slice(0, 31) + '0');
-    const hostCount = Math.pow(2, 32 - cidr) - 2;
-    const subnetMask = getSubnetMask(cidr);
-
-    output.innerHTML = `
-      
-      <p><strong>Subnet Mask:</strong> ${subnetMask}</p>
-      <p><strong>Network Address:</strong> ${network}</p>
-      <p><strong>Broadcast Address:</strong> ${broadcast}</p>
-      <p><strong>First Usable Host:</strong> ${firstHost}</p>
-      <p><strong>Last Usable Host:</strong> ${lastHost}</p>
-      <p><strong>Total Usable Hosts:</strong> ${hostCount}</p>
-    `;
-    output.style.display = "block";
-  }
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
