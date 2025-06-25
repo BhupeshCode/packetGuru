@@ -40,4 +40,23 @@ window.onload = function () {
       <strong>Number of Hosts:</strong> ${numHosts}
     `;
   };
+ tsParticles.load("tsparticles", {
+  particles: {
+    number: { value: 80 },
+    color: { value: "#ffffff" },
+    shape: { type: "circle" },
+    opacity: { value: 0.5 },
+    size: { value: 3 },
+    move: { enable: true, speed: 1 }
+  },
+  interactivity: {
+    events: { onhover: { enable: true, mode: "repulse" } },
+    modes: { repulse: { distance: 100 } }
+  },
+  background: {
+    color: "#000000"
+  }
+});
 };
+
+

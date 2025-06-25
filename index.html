@@ -6,14 +6,18 @@
   <title>PacketGuru - Subnet Calculator</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.3.0/tsparticles.bundle.min.js"></script>
 </head>
 <body>
+  <div id="tsparticles"></div>
   <div class="container">
     <h1>📡 PacketGuru Subnet Calculator</h1>
     <input type="text" id="ipInput" placeholder="Enter IP (e.g. 192.168.1.1/24)" />
     <button onclick="calculate()">Calculate</button>
     <div id="output" class="output-box"></div>
   </div>
+  
+
 
   <script src="script.js"></script>
 </body>
