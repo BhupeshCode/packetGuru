@@ -2,36 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BhupeshGPT - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PacketGuru - Subnet Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 50px;
+      padding: 40px;
+      background-color: #f4f4f4;
     }
-    .button {
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+
+    .home-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
       text-decoration: none;
+      background: #4CAF50;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
     }
-    .button:hover {
-      background-color: #45a049;
+
+    h1 {
+      color: #333;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-<a href="https://bhupeshcode.github.io" style="position: fixed; top: 10px; left: 10px; text-decoration: none; background: #4CAF50; color: white; padding: 8px 12px; border-radius: 6px;">🏠 BhupeshGPT Home</a>
-  <h1>Welcome to BhupeshGPT</h1>
-  <p>Your Personal Tech Assistant</p>
 
-  <a class="button" href="https://bhupeshcode.github.io/packetGuru/" target="_blank">
-    Go to PacketGuru Subnet Calculator
-  </a>
+  <!-- 🏠 Back to Homepage -->
+  <a class="home-link" href="https://bhupeshcode.github.io">🏠 BhupeshGPT Home</a>
+
+  <h1>PacketGuru - Subnet Calculator</h1>
+
+  <input type="text" id="ip" placeholder="Enter IP Address (e.g., 192.168.1.1)" />
+  <input type="text" id="subnet" placeholder="Enter Subnet Mask (e.g., 255.255.255.0)" />
+  <br />
+  <button onclick="calculate()">Calculate</button>
+
+  <div id="result"></div>
+
+  <script>
+    function calculate() {
+      const ip = document.getElementById('ip').value;
+      const subnet = document.getElementById('subnet').value;
+      const result = document.getElementById('result');
+
+      if (!ip || !subnet) {
+        result.textContent = "Please enter both IP address and subnet mask.";
+        return;
+      }
+
+      // Basic response for demo purposes
+      result.textContent = `Subnet calculation for IP: ${ip} with Mask: ${subnet}`;
+    }
+  </script>
 
 </body>
 </html>
