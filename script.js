@@ -73,3 +73,21 @@ function decrementBinary(bin) {
 function formatBinary(bin) {
   return bin.match(/.{1,8}/g).join(".");
 }
+// Dark Mode Toggle
+const toggleBtn = document.getElementById("darkModeToggle");
+
+toggleBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  const isDark = document.body.classList.contains("dark");
+  toggleBtn.textContent = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+});
+
+// Load saved theme on page load
+window.addEventListener("DOMContentLoaded", () => {
+  const darkModeSetting = localStorage.getItem("darkMode");
+  if (darkModeSetting === "enabled") {
+    document.body.classList.add("dark");
+    toggleBtn.textContent = "☀️ Light Mode";
+  }
+});
