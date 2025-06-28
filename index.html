@@ -72,11 +72,38 @@
       margin-bottom: 10px;
       font-size: 16px;
     }
+    body.dark {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+body.dark .container {
+  background-color: #1e1e1e;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+body.dark input,
+body.dark select,
+body.dark button {
+  background-color: #2b2b2b;
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+body.dark button:hover {
+  background-color: #444;
+}
   </style>
 </head>
 <body>
 
-  <header>BhupeshGPT - Subnet Calculator</header>
+ <header>
+  BhupeshGPT - Subnet Calculator
+  <button id="darkModeToggle" style="float: right; font-size: 14px; padding: 5px 10px; margin-top: -5px;">
+    🌙 Dark Mode
+  </button>
+</header>
+
 
   <div class="container">
     <div class="form-group">
