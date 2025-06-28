@@ -93,16 +93,41 @@ body.dark button {
 body.dark button:hover {
   background-color: #444;
 }
+
+header {
+  background-color: #222;
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#darkModeToggle {
+  font-size: 14px;
+  padding: 8px 14px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#darkModeToggle:hover {
+  background-color: #666;
+}
+
   </style>
 </head>
 <body>
 
  <header>
-  BhupeshGPT - Subnet Calculator
-  <button id="darkModeToggle" style="float: right; font-size: 14px; padding: 5px 10px; margin-top: -5px;">
-    🌙 Dark Mode
-  </button>
+  <span>BhupeshGPT - Subnet Calculator</span>
+  <button id="darkModeToggle">🌙 Dark Mode</button>
 </header>
+
 
 
   <div class="container">
