@@ -88,12 +88,16 @@ body.dark button:hover {
 header {
   background-color: #222;
   color: white;
-  padding: 20px;
+  padding: 20px 30px;
   font-size: 24px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header-title {
+  font-weight: bold;
 }
 
 #darkModeToggle {
@@ -114,10 +118,11 @@ header {
 </head>
 <body>
 
- <header>
-  <span>BhupeshGPT - Subnet Calculator</span>
+<header>
+  <div class="header-title">BhupeshGPT - Subnet Calculator</div>
   <button id="darkModeToggle">🌙 Dark Mode</button>
 </header>
+
 
 
 
