@@ -1,58 +1,75 @@
-<!-- ✅ Final working JS here -->
-  <script>
-    window.onload = function () {
-      // Subnet calculator logic
-      window.calculate = function () {
-        const input = document.getElementById("ipInput").value.trim();
-        const outputDiv = document.getElementById("output");
+function calculate() {
+  const ipInput = document.getElementById("ip").value.trim();
+  const cidr = parseInt(document.getElementById("subnet").value.slice(1));
+  const resultsDiv = document.getElementById("results");
 
-        const match = input.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)\/(\d{1,2})$/);
-        if (!match) {
-          outputDiv.textContent = "❌ Invalid input. Use format: 192.168.1.1/24";
-          return;
-        }
+  // Validate IP
+  if (!isValidIP(ipInput)) {
+    resultsDiv.innerHTML = `<div class="result-item" style="color:red;">❌ Invalid IP Address</div>`;
+    return;
+  }
 
-        const [_, a, b, c, d, cidr] = match.map(Number);
-        if ([a, b, c, d].some(o => o < 0 || o > 255) || cidr < 0 || cidr > 32) {
-          outputDiv.textContent = "❌ Invalid IP or CIDR range.";
-          return;
-        }
+  const ipBinary = ipToBinary(ipInput);
+  const subnetMaskBinary = "1".repeat(cidr).padEnd(32, "0");
+  const subnetMask = binaryToIP(subnetMaskBinary);
+  const networkBinary = getNetworkID(ipBinary, subnetMaskBinary);
+  const broadcastBinary = getBroadcastID(networkBinary, cidr);
+  const networkID = binaryToIP(networkBinary);
+  const broadcastID = binaryToIP(broadcastBinary);
 
-        const ip = (a << 24) | (b << 16) | (c << 8) | d;
-        const mask = 0xffffffff << (32 - cidr);
-        const network = ip & mask;
-        const broadcast = network | (~mask >>> 0);
-        const numHosts = cidr === 32 ? 1 : (cidr === 31 ? 2 : (2 ** (32 - cidr)) - 2);
+  const totalHosts = cidr >= 31 ? 0 : Math.pow(2, 32 - cidr) - 2;
+  const firstHost = cidr >= 31 ? "N/A" : binaryToIP(incrementBinary(networkBinary));
+  const lastHost = cidr >= 31 ? "N/A" : binaryToIP(decrementBinary(broadcastBinary));
 
-        function intToIp(num) {
-          return `${(num >>> 24)}.${(num >>> 16 & 255)}.${(num >>> 8 & 255)}.${(num & 255)}`;
-        }
+  // Show results
+  resultsDiv.innerHTML = `
+    <div class="result-item"><strong>Network ID:</strong> ${networkID}</div>
+    <div class="result-item"><strong>Broadcast Address:</strong> ${broadcastID}</div>
+    <div class="result-item"><strong>Subnet Mask:</strong> ${subnetMask}</div>
+    <div class="result-item"><strong>Total Hosts:</strong> ${totalHosts}</div>
+    <div class="result-item"><strong>Valid Host Range:</strong> ${firstHost} - ${lastHost}</div>
+    <div class="result-item"><strong>IP (Binary):</strong> ${formatBinary(ipBinary)}</div>
+    <div class="result-item"><strong>Subnet Mask (Binary):</strong> ${formatBinary(subnetMaskBinary)}</div>
+  `;
+}
 
-        outputDiv.innerHTML = `
-          <strong>✅ Subnet Calculation:</strong><br><br>
-          <strong>IP Address:</strong> ${input}<br>
-          <strong>Subnet Mask:</strong> ${intToIp(mask)}<br>
-          <strong>Network Address:</strong> ${intToIp(network)}<br>
-          <strong>Broadcast Address:</strong> ${intToIp(broadcast)}<br>
-          <strong>Number of Hosts:</strong> ${numHosts}
-        `;
-      };
+function isValidIP(ip) {
+  const regex = /^(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})){3}$/;
+  return regex.test(ip);
+}
 
-      // tsParticles init (no error now)
-      tsParticles.load("tsparticles", {
-        particles: {
-          number: { value: 80 },
-          color: { value: "#ffffff" },
-          shape: { type: "circle" },
-          opacity: { value: 0.5 },
-          size: { value: 3 },
-          move: { enable: true, speed: 1 }
-        },
-        interactivity: {
-          events: { onhover: { enable: true, mode: "repulse" } },
-          modes: { repulse: { distance: 100 } }
-        },
-        background: { color: "#000000" }
-      });
-    };
-  </script>
+function ipToBinary(ip) {
+  return ip.split(".")
+    .map(octet => parseInt(octet).toString(2).padStart(8, "0"))
+    .join("");
+}
+
+function binaryToIP(bin) {
+  return bin.match(/.{1,8}/g)
+    .map(byte => parseInt(byte, 2))
+    .join(".");
+}
+
+function getNetworkID(ipBin, maskBin) {
+  let result = "";
+  for (let i = 0; i < 32; i++) {
+    result += (ipBin[i] === "1" && maskBin[i] === "1") ? "1" : "0";
+  }
+  return result;
+}
+
+function getBroadcastID(networkBin, cidr) {
+  return networkBin.slice(0, cidr).padEnd(32, "1");
+}
+
+function incrementBinary(bin) {
+  return (BigInt("0b" + bin) + 1n).toString(2).padStart(32, "0");
+}
+
+function decrementBinary(bin) {
+  return (BigInt("0b" + bin) - 1n).toString(2).padStart(32, "0");
+}
+
+function formatBinary(bin) {
+  return bin.match(/.{1,8}/g).join(".");
+}
