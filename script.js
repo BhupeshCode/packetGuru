@@ -1,9 +1,9 @@
+// Subnet Calculator
 function calculate() {
   const ipInput = document.getElementById("ip").value.trim();
   const cidr = parseInt(document.getElementById("subnet").value.slice(1));
   const resultsDiv = document.getElementById("results");
 
-  // Validate IP
   if (!isValidIP(ipInput)) {
     resultsDiv.innerHTML = `<div class="result-item" style="color:red;">❌ Invalid IP Address</div>`;
     return;
@@ -21,7 +21,6 @@ function calculate() {
   const firstHost = cidr >= 31 ? "N/A" : binaryToIP(incrementBinary(networkBinary));
   const lastHost = cidr >= 31 ? "N/A" : binaryToIP(decrementBinary(broadcastBinary));
 
-  // Show results
   resultsDiv.innerHTML = `
     <div class="result-item"><strong>Network ID:</strong> ${networkID}</div>
     <div class="result-item"><strong>Broadcast Address:</strong> ${broadcastID}</div>
@@ -73,6 +72,7 @@ function decrementBinary(bin) {
 function formatBinary(bin) {
   return bin.match(/.{1,8}/g).join(".");
 }
+
 // Dark Mode Toggle
 const toggleBtn = document.getElementById("darkModeToggle");
 
@@ -83,7 +83,6 @@ toggleBtn.addEventListener("click", () => {
   localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
 });
 
-// Load saved theme on page load
 window.addEventListener("DOMContentLoaded", () => {
   const darkModeSetting = localStorage.getItem("darkMode");
   if (darkModeSetting === "enabled") {
@@ -92,6 +91,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// CCNA Quiz
 const quizData = [
   {
     question: "What is the default administrative distance of OSPF?",
@@ -107,14 +107,13 @@ const quizData = [
     question: "What is the range of Class C IP addresses?",
     options: ["128.0.0.0 – 191.255.255.255", "192.0.0.0 – 223.255.255.255", "224.0.0.0 – 239.255.255.255", "1.0.0.0 – 126.255.255.255"],
     answer: "192.0.0.0 – 223.255.255.255"
-  }, // ✅ COMMA ADDED HERE
+  },
   {
     question: "New Question?",
     options: ["A", "B", "C", "D"],
     answer: "B"
   }
 ];
-
 
 let currentQuestion = 0;
 let selectedOption = null;
