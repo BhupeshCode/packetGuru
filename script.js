@@ -178,4 +178,3 @@ nextBtn.onclick = () => {
   }
 };
 
-loadQuestion();
