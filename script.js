@@ -91,3 +91,92 @@ window.addEventListener("DOMContentLoaded", () => {
     toggleBtn.textContent = "☀️ Light Mode";
   }
 });
+
+const quizData = [
+  {
+    question: "What is the default administrative distance of OSPF?",
+    options: ["110", "120", "90", "100"],
+    answer: "110"
+  },
+  {
+    question: "Which command is used to view the routing table on a Cisco router?",
+    options: ["show ip route", "show interface", "show ip protocols", "show running-config"],
+    answer: "show ip route"
+  },
+  {
+    question: "What is the range of Class C IP addresses?",
+    options: ["128.0.0.0 – 191.255.255.255", "192.0.0.0 – 223.255.255.255", "224.0.0.0 – 239.255.255.255", "1.0.0.0 – 126.255.255.255"],
+    answer: "192.0.0.0 – 223.255.255.255"
+  }
+  {
+  question: "New Question?",
+  options: ["A", "B", "C", "D"],
+  answer: "B"
+}
+
+];
+
+let currentQuestion = 0;
+let selectedOption = null;
+
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const feedbackEl = document.getElementById("feedback");
+const checkBtn = document.getElementById("check-answer");
+const nextBtn = document.getElementById("next-question");
+
+function loadQuestion() {
+  const current = quizData[currentQuestion];
+  questionEl.textContent = current.question;
+  optionsEl.innerHTML = "";
+  feedbackEl.textContent = "";
+  nextBtn.style.display = "none";
+  selectedOption = null;
+
+  current.options.forEach(option => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.onclick = () => {
+      document.querySelectorAll("#options button").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      selectedOption = option;
+    };
+    li.appendChild(btn);
+    optionsEl.appendChild(li);
+  });
+}
+
+checkBtn.onclick = () => {
+  if (!selectedOption) {
+    feedbackEl.textContent = "Please select an option!";
+    feedbackEl.style.color = "orange";
+    return;
+  }
+
+  const correct = quizData[currentQuestion].answer;
+  if (selectedOption === correct) {
+    feedbackEl.textContent = "✅ Correct!";
+    feedbackEl.style.color = "green";
+  } else {
+    feedbackEl.textContent = `❌ Wrong! Correct answer is: ${correct}`;
+    feedbackEl.style.color = "red";
+  }
+
+  nextBtn.style.display = "block";
+};
+
+nextBtn.onclick = () => {
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    loadQuestion();
+  } else {
+    questionEl.textContent = "🎉 Quiz Completed!";
+    optionsEl.innerHTML = "";
+    feedbackEl.textContent = "";
+    checkBtn.style.display = "none";
+    nextBtn.style.display = "none";
+  }
+};
+
+loadQuestion();
