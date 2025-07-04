@@ -107,14 +107,14 @@ const quizData = [
     question: "What is the range of Class C IP addresses?",
     options: ["128.0.0.0 – 191.255.255.255", "192.0.0.0 – 223.255.255.255", "224.0.0.0 – 239.255.255.255", "1.0.0.0 – 126.255.255.255"],
     answer: "192.0.0.0 – 223.255.255.255"
-  }
+  }, // ✅ COMMA ADDED HERE
   {
-  question: "New Question?",
-  options: ["A", "B", "C", "D"],
-  answer: "B"
-}
-
+    question: "New Question?",
+    options: ["A", "B", "C", "D"],
+    answer: "B"
+  }
 ];
+
 
 let currentQuestion = 0;
 let selectedOption = null;
